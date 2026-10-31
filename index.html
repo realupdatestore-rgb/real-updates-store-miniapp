@@ -528,38 +528,31 @@
   </section>
 
   <!-- LATEST BLOG UPDATES -->
-  <section class="section" id="latest-updates">
-    <div class="section-heading">
-      <h2>Latest Updates</h2>
-      <span>Articles and tutorials</span>
-    </div>
+  
+<!-- AUTOMATIC BLOGGER LATEST UPDATES -->
+<section class="section" id="latest-updates">
 
-    <div class="resource-grid">
+  <div class="section-heading">
+    <h2>Latest Updates</h2>
+    <span>Our newest articles</span>
+  </div>
 
-      <article class="resource-card">
-        <div class="resource-top">
-          <div class="resource-icon">BLOG</div>
-          <div class="resource-info">
-            <h3>Real Updates Store Blog</h3>
-            <span>Technology News and Tutorials</span>
-          </div>
-        </div>
+  <div class="resource-grid" id="blogPosts">
+    <p>Loading our latest articles...</p>
+  </div>
 
-        <p>
-          Read our latest articles, discover useful AI tools,
-          explore technology tutorials and stay updated.
-        </p>
+  <div style="text-align:center; margin-top:20px;">
+    <a class="resource-button"
+       href="https://realupdatestore.blogspot.com/"
+       target="_blank"
+       rel="noopener noreferrer">
+      Visit Our Blog →
+    </a>
+  </div>
 
-        <a class="resource-button"
-           href="https://realupdatestore.blogspot.com/"
-           target="_blank"
-           rel="noopener noreferrer">
-          Visit Our Blog →
-        </a>
-      </article>
+</section>
+<!-- END AUTOMATIC BLOGGER LATEST UPDATES -->
 
-    </div>
-  </section>
   <!-- END LATEST BLOG UPDATES -->
 
   <section class="section">
@@ -829,6 +822,103 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 });
+</script> 
+  
+<script>
+(function () {
+  const container = document.getElementById("blogPosts");
+
+  if (!container) return;
+
+  window.renderRealUpdatesPosts = function (data) {
+    const entries = data.feed.entry || [];
+
+    container.replaceChildren();
+
+    if (entries.length === 0) {
+      container.textContent = "No articles published yet.";
+      return;
+    }
+
+    entries.forEach(function (entry) {
+      const title = entry.title?.$t || "Untitled article";
+
+      const linkData = entry.link?.find(function (link) {
+        return link.rel === "alternate";
+      });
+
+      const articleUrl = linkData?.href;
+
+      if (!articleUrl) return;
+
+      const summaryHTML =
+        entry.summary?.$t ||
+        entry.content?.$t ||
+        "Read the full article on Real Updates Store.";
+
+      const temp = document.createElement("div");
+      temp.innerHTML = summaryHTML;
+
+      const description =
+        (temp.textContent || "")
+          .replace(/\s+/g, " ")
+          .trim()
+          .slice(0, 160) ||
+        "Read the full article on Real Updates Store.";
+
+      const card = document.createElement("article");
+      card.className = "resource-card";
+
+      const top = document.createElement("div");
+      top.className = "resource-top";
+
+      const icon = document.createElement("div");
+      icon.className = "resource-icon";
+      icon.textContent = "BLOG";
+
+      const info = document.createElement("div");
+      info.className = "resource-info";
+
+      const heading = document.createElement("h3");
+      heading.textContent = title;
+
+      const category = document.createElement("span");
+      category.textContent = "Latest Article";
+
+      info.append(heading, category);
+      top.append(icon, info);
+
+      const paragraph = document.createElement("p");
+      paragraph.textContent = description;
+
+      const button = document.createElement("a");
+      button.className = "resource-button";
+      button.href = articleUrl;
+      button.target = "_blank";
+      button.rel = "noopener noreferrer";
+      button.textContent = "Read Full Article →";
+
+      card.append(top, paragraph, button);
+
+      container.appendChild(card);
+    });
+  };
+
+  const feedScript = document.createElement("script");
+
+  feedScript.src =
+    "https://realupdatestore.blogspot.com/feeds/posts/default" +
+    "?alt=json-in-script&max-results=6" +
+    "&callback=renderRealUpdatesPosts";
+
+  feedScript.onerror = function () {
+    container.textContent =
+      "Unable to load articles. Please visit our blog.";
+  };
+
+  document.body.appendChild(feedScript);
+})();
 </script>
+
 </body>
 </html>
