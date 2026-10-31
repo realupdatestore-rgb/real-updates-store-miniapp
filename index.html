@@ -694,7 +694,23 @@
     tg.expand();
     tg.setHeaderColor("#101a30");
     tg.setBackgroundColor("#f5f7fb");
+  } // Open external links correctly inside Telegram Mini Apps
+document.addEventListener("click", function (event) {
+  const link = event.target.closest("a[href]");
+
+  if (!link) return;
+
+  const url = new URL(link.href, window.location.href);
+
+  // Ignore internal page links
+  if (url.origin === window.location.origin) return;
+
+  // Use Telegram's official external link handler
+  if (tg && typeof tg.openLink === "function") {
+    event.preventDefault();
+    tg.openLink(url.href);
   }
+});
 
   // Current year
   document.getElementById("year").textContent =
