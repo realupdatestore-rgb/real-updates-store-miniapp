@@ -869,32 +869,47 @@ document.addEventListener('DOMContentLoaded', function () {
       if (!articleUrl) return;
 
       // Get article content
-      const contentHTML =
-        entry.content?.$t || entry.summary?.$t || "";
+      
+// Get the full Blogger article content
+const contentHTML =
+  entry.content?.$t || entry.summary?.$t || "";
 
-      const summaryHTML =
-        entry.summary?.$t || contentHTML;
+// Convert article HTML into a temporary document
+const temp = document.createElement("div");
+temp.innerHTML = contentHTML;
 
-      // Extract article text and featured image
-      const temp = document.createElement("div");
-      temp.innerHTML = contentHTML;
+// Remove embedded CSS, scripts and unwanted elements
+temp.querySelectorAll(
+  "style, script, noscript, iframe"
+).forEach(function (element) {
+  element.remove();
+});
 
-      const imageElement = temp.querySelector("img");
+// Find the article's featured image
+const imageElement = temp.querySelector("img");
 
-      const imageUrl =
-        entry.media$thumbnail?.url ||
-        imageElement?.getAttribute("src") ||
-        imageElement?.getAttribute("data-src");
+const imageUrl =
+  entry.media$thumbnail?.url ||
+  imageElement?.getAttribute("src") ||
+  imageElement?.getAttribute("data-src");
 
-      const descriptionTemp = document.createElement("div");
-      descriptionTemp.innerHTML = summaryHTML;
+// Extract readable article text
+let description = temp.textContent || "";
 
-      const description = (
-        descriptionTemp.textContent || ""
-      )
-        .replace(/\s+/g, " ")
-        .trim()
-        .slice(0, 500);
+// Remove visible CSS rules from the extracted text
+description = description.replace(
+  /\.rus-post[^{}]*\{[^{}]*\}/gi,
+  " "
+);
+
+// Clean up whitespace
+description = description
+  .replace(/\s+/g, " ")
+  .trim();
+
+// Keep a readable preview
+description = description.slice(0, 500);
+
 
       // Create article card
       const card = document.createElement("article");
