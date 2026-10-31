@@ -1,0 +1,767 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101a30">
+  <meta name="description" content="Discover useful Android apps, AI tools, PC software, technology tips and online resources at Real Updates Store.">
+  <title>Real Updates Store | Discover. Learn. Stay Updated.</title>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <style>
+    :root {
+      --navy: #101a30;
+      --blue: #3478f6;
+      --blue-light: #eaf1ff;
+      --text: #172033;
+      --muted: #748096;
+      --bg: #f5f7fb;
+      --white: #ffffff;
+      --border: #e8edf5;
+      --green: #159b69;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    button, input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: min(100% - 30px, 1050px);
+      margin: auto;
+    }
+
+    header {
+      background: var(--navy);
+      color: white;
+      padding: 17px 0;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 43px;
+      height: 43px;
+      border-radius: 13px;
+      background: var(--blue);
+      display: grid;
+      place-items: center;
+    }
+
+    .brand-icon svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .brand h1 {
+      font-size: 16px;
+      letter-spacing: .4px;
+    }
+
+    .brand small {
+      display: block;
+      margin-top: 4px;
+      color: #aab9d2;
+      font-size: 11px;
+    }
+
+    .header-link {
+      color: white;
+      background: #263958;
+      border: 1px solid #405476;
+      padding: 9px 12px;
+      border-radius: 9px;
+      font-size: 12px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #101a30, #1d3e78);
+      color: white;
+      padding: 34px 22px;
+      border-radius: 20px;
+      margin-top: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 580px;
+    }
+
+    .hero-label {
+      color: #a9caff;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .hero h2 {
+      font-size: clamp(27px, 6vw, 43px);
+      line-height: 1.15;
+      margin: 13px 0;
+    }
+
+    .hero p {
+      color: #d1def4;
+      font-size: 14px;
+      line-height: 1.7;
+      max-width: 460px;
+    }
+
+    .hero-button {
+      display: inline-block;
+      background: white;
+      color: #173a77;
+      padding: 12px 17px;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 13px;
+      margin-top: 19px;
+    }
+
+    .hero-art {
+      position: absolute;
+      right: 15px;
+      bottom: -23px;
+      width: 175px;
+      opacity: .22;
+    }
+
+    .section {
+      margin-top: 29px;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .section-heading h2 {
+      font-size: 19px;
+    }
+
+    .section-heading span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 13px 15px;
+      margin-top: 23px;
+    }
+
+    .search-box svg {
+      width: 19px;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .search-box input {
+      border: 0;
+      outline: 0;
+      background: transparent;
+      width: 100%;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 11px;
+    }
+
+    .category {
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 14px;
+      padding: 16px 7px;
+      text-align: center;
+      color: var(--text);
+      transition: .2s;
+    }
+
+    .category:hover,
+    .category.active {
+      border-color: var(--blue);
+      background: var(--blue-light);
+    }
+
+    .category svg {
+      width: 27px;
+      height: 27px;
+      margin-bottom: 9px;
+      color: var(--blue);
+    }
+
+    .category strong {
+      display: block;
+      font-size: 11px;
+      line-height: 1.4;
+    }
+
+    .category.active strong {
+      color: var(--blue);
+    }
+
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 13px;
+    }
+
+    .resource-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .resource-top {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .resource-icon {
+      width: 43px;
+      height: 43px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: var(--blue-light);
+      color: var(--blue);
+      flex-shrink: 0;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .resource-info {
+      min-width: 0;
+    }
+
+    .resource-info h3 {
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .resource-info span {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .resource-card p {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin: 13px 0;
+      flex: 1;
+    }
+
+    .resource-button {
+      display: block;
+      text-align: center;
+      background: var(--blue-light);
+      color: var(--blue);
+      border: 0;
+      padding: 10px;
+      border-radius: 9px;
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    .resource-button:hover {
+      background: var(--blue);
+      color: white;
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      background: white;
+      border-radius: 14px;
+      padding: 30px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .promo {
+      background: #eaf8f1;
+      border: 1px solid #ccebdc;
+      border-radius: 15px;
+      padding: 20px;
+    }
+
+    .promo h3 {
+      color: #126c48;
+      font-size: 17px;
+      margin-bottom: 9px;
+    }
+
+    .promo p {
+      color: #46735f;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .promo a {
+      display: inline-block;
+      margin-top: 13px;
+      background: var(--green);
+      color: white;
+      padding: 11px 15px;
+      border-radius: 9px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .disclosure {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 15px;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    footer {
+      margin-top: 35px;
+      background: var(--navy);
+      color: #b6c3d9;
+      padding: 25px 0;
+      text-align: center;
+      font-size: 11px;
+      line-height: 2;
+    }
+
+    footer strong {
+      color: white;
+    }
+
+    footer a {
+      color: #8bb6ff;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 520px) {
+      .categories {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .resource-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-art {
+        width: 120px;
+        right: -12px;
+      }
+
+      .hero {
+        padding: 29px 19px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="container topbar">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white"
+             stroke-width="2" stroke-linecap="round">
+          <path d="M4 5h16v14H4z"/>
+          <path d="M8 9h8M8 13h5"/>
+        </svg>
+      </div>
+      <div>
+        <h1>REAL UPDATES STORE</h1>
+        <small>Discover. Learn. Stay Updated.</small>
+      </div>
+    </div>
+    <a class="header-link"
+       href="https://www.youtube.com/@RealUpdatestore"
+       target="_blank" rel="noopener noreferrer">
+      YouTube ↗
+    </a>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-label">Your technology resource center</div>
+      <h2>Discover Useful Technology.</h2>
+      <p>
+        Explore helpful applications, artificial intelligence tools,
+        computer software and useful online resources in one place.
+      </p>
+      <a href="#explore" class="hero-button">Explore Resources →</a>
+    </div>
+
+    <svg class="hero-art" viewBox="0 0 180 180" fill="none">
+      <rect x="25" y="15" width="125" height="145" rx="18"
+            stroke="white" stroke-width="5"/>
+      <rect x="43" y="38" width="89" height="12" rx="5"
+            fill="white"/>
+      <rect x="43" y="62" width="89" height="12" rx="5"
+            fill="white"/>
+      <rect x="43" y="86" width="65" height="12" rx="5"
+            fill="white"/>
+      <circle cx="90" cy="130" r="12" stroke="white" stroke-width="5"/>
+    </svg>
+  </section>
+
+  <div class="search-box">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2">
+      <circle cx="11" cy="11" r="7"/>
+      <path d="m16 16 5 5"/>
+    </svg>
+    <input type="search" id="searchInput"
+           placeholder="Search apps, AI tools and resources...">
+  </div>
+
+  <section class="section" id="explore">
+    <div class="section-heading">
+      <h2>Explore Categories</h2>
+      <span>Choose a category</span>
+    </div>
+
+    <div class="categories">
+      <button class="category active" data-category="all">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2">
+          <rect x="3" y="3" width="8" height="8" rx="2"/>
+          <rect x="13" y="3" width="8" height="8" rx="2"/>
+          <rect x="3" y="13" width="8" height="8" rx="2"/>
+          <rect x="13" y="13" width="8" height="8" rx="2"/>
+        </svg>
+        <strong>All Resources</strong>
+      </button>
+
+      <button class="category" data-category="android">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2">
+          <rect x="6" y="2" width="12" height="20" rx="3"/>
+          <path d="M10 18h4"/>
+        </svg>
+        <strong>Android Apps</strong>
+      </button>
+
+      <button class="category" data-category="ai">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2">
+          <path d="M12 3v3m0 12v3M3 12h3m12 0h3"/>
+          <circle cx="12" cy="12" r="7"/>
+          <path d="m9 12 2 2 4-4"/>
+        </svg>
+        <strong>AI Tools</strong>
+      </button>
+
+      <button class="category" data-category="software">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2">
+          <rect x="2" y="3" width="20" height="15" rx="2"/>
+          <path d="M8 21h8m-4-3v3"/>
+        </svg>
+        <strong>PC Software</strong>
+      </button>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <h2>Featured Resources</h2>
+      <span id="resultCount">Resources</span>
+    </div>
+
+    <div class="resource-grid" id="resourceGrid">
+
+      <article class="resource-card" data-category="ai"
+               data-search="chatgpt artificial intelligence ai assistant">
+        <div class="resource-top">
+          <div class="resource-icon">AI</div>
+          <div class="resource-info">
+            <h3>ChatGPT</h3>
+            <span>Artificial Intelligence</span>
+          </div>
+        </div>
+        <p>
+          Explore an AI assistant for learning, writing,
+          research and everyday productivity.
+        </p>
+        <a class="resource-button"
+           href="https://chatgpt.com/"
+           target="_blank" rel="noopener noreferrer">Visit Official Website ↗</a>
+      </article>
+
+      <article class="resource-card" data-category="ai"
+               data-search="google gemini ai assistant">
+        <div class="resource-top">
+          <div class="resource-icon">G</div>
+          <div class="resource-info">
+            <h3>Google Gemini</h3>
+            <span>AI Assistant</span>
+          </div>
+        </div>
+        <p>
+          Discover Google's AI assistant and its tools for
+          answering questions and exploring ideas.
+        </p>
+        <a class="resource-button"
+           href="https://gemini.google.com/"
+           target="_blank" rel="noopener noreferrer">Visit Official Website ↗</a>
+      </article>
+
+      <article class="resource-card" data-category="ai"
+               data-search="canva design graphics ai">
+        <div class="resource-top">
+          <div class="resource-icon">C</div>
+          <div class="resource-info">
+            <h3>Canva</h3>
+            <span>Design and Creativity</span>
+          </div>
+        </div>
+        <p>
+          Explore graphic design tools for presentations,
+          social media graphics and creative projects.
+        </p>
+        <a class="resource-button"
+           href="https://www.canva.com/"
+           target="_blank" rel="noopener noreferrer">Visit Official Website ↗</a>
+      </article>
+
+      <article class="resource-card" data-category="software"
+               data-search="github code programming software development">
+        <div class="resource-top">
+          <div class="resource-icon">GH</div>
+          <div class="resource-info">
+            <h3>GitHub</h3>
+            <span>Development Platform</span>
+          </div>
+        </div>
+        <p>
+          Discover a platform for hosting code,
+          collaborating and managing software projects.
+        </p>
+        <a class="resource-button"
+           href="https://github.com/"
+           target="_blank" rel="noopener noreferrer">Visit Official Website ↗</a>
+      </article>
+
+      <article class="resource-card" data-category="software"
+               data-search="Microsoft Windows computer software support">
+        <div class="resource-top">
+          <div class="resource-icon">W</div>
+          <div class="resource-info">
+            <h3>Windows Support</h3>
+            <span>Computer Resources</span>
+          </div>
+        </div>
+        <p>
+          Find official Windows help, troubleshooting
+          guides and computer support resources.
+        </p>
+        <a class="resource-button"
+           href="https://support.microsoft.com/windows"
+           target="_blank" rel="noopener noreferrer">Visit Official Website ↗</a>
+      </article>
+
+      <article class="resource-card" data-category="android"
+               data-search="android mobile phone apps google">
+        <div class="resource-top">
+          <div class="resource-icon">A</div>
+          <div class="resource-info">
+            <h3>Android</h3>
+            <span>Mobile Technology</span>
+          </div>
+        </div>
+        <p>
+          Explore Android features, mobile technology
+          information and official resources.
+        </p>
+        <a class="resource-button"
+           href="https://www.android.com/"
+           target="_blank" rel="noopener noreferrer">Visit Official Website ↗</a>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="promo">
+      <h3>Discover More Technology Tutorials</h3>
+      <p>
+        Visit our official YouTube channel for technology
+        updates, AI tutorials, Android tips and computer lessons.
+      </p>
+      <a href="https://www.youtube.com/@RealUpdatestore"
+         target="_blank" rel="noopener noreferrer">
+        Visit Real Updates Store on YouTube ↗
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="disclosure">
+      <strong>Affiliate and advertising disclosure</strong><br>
+      Some resources may contain affiliate or sponsored links.
+      If we earn a commission from a qualifying purchase or action,
+      it will not necessarily increase the price you pay.
+      We aim to identify promotional links clearly.
+      Always review the terms of third-party websites before using them.
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <strong>REAL UPDATES STORE</strong><br>
+    Discover. Learn. Stay Updated.<br>
+    Technology • AI • Apps • Tutorials<br>
+    <a href="https://www.youtube.com/@RealUpdatestore"
+       target="_blank" rel="noopener noreferrer">YouTube Channel</a>
+    <br>
+    © <span id="year"></span> Real Updates Store. All rights reserved.
+  </div>
+</footer>
+
+<script>
+  // Telegram Mini App initialization
+  const tg = window.Telegram && window.Telegram.WebApp;
+
+  if (tg) {
+    tg.ready();
+    tg.expand();
+    tg.setHeaderColor("#101a30");
+    tg.setBackgroundColor("#f5f7fb");
+  }
+
+  // Current year
+  document.getElementById("year").textContent =
+    new Date().getFullYear();
+
+  // Category filtering and search
+  const categoryButtons = document.querySelectorAll(".category");
+  const cards = document.querySelectorAll(".resource-card");
+  const searchInput = document.getElementById("searchInput");
+  const resultCount = document.getElementById("resultCount");
+  const grid = document.getElementById("resourceGrid");
+
+  let activeCategory = "all";
+
+  function filterResources() {
+    const query = searchInput.value.toLowerCase().trim();
+    let visible = 0;
+
+    cards.forEach(card => {
+      const category = card.dataset.category;
+      const searchable =
+        (card.dataset.search + " " + card.innerText).toLowerCase();
+
+      const categoryMatch =
+        activeCategory === "all" || category === activeCategory;
+
+      const searchMatch = searchable.includes(query);
+      const show = categoryMatch && searchMatch;
+
+      card.classList.toggle("hidden", !show);
+
+      if (show) visible++;
+    });
+
+    resultCount.textContent = visible + " resource(s)";
+
+    let empty = document.getElementById("emptyState");
+
+    if (!visible) {
+      if (!empty) {
+        empty = document.createElement("div");
+        empty.id = "emptyState";
+        empty.className = "empty-state";
+        empty.textContent =
+          "No resources found. Try another search or category.";
+        grid.appendChild(empty);
+      }
+    } else if (empty) {
+      empty.remove();
+    }
+  }
+
+  categoryButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      categoryButtons.forEach(item =>
+        item.classList.remove("active")
+      );
+
+      button.classList.add("active");
+      activeCategory = button.dataset.category;
+      filterResources();
+    });
+  });
+
+  searchInput.addEventListener("input", filterResources);
+
+  filterResources();
+</script>
+
+</body>
+</html>
