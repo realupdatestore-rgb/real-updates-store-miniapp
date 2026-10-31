@@ -7,6 +7,7 @@
   <meta name="theme-color" content="#101a30">
   <meta name="description" content="Discover useful Android apps, AI tools, PC software, technology tips and online resources at Real Updates Store.">
   <title>Real Updates Store | Discover. Learn. Stay Updated.</title>
+  <script src='//libtl.com/sdk.js' data-zone='12157237' data-sdk='show_12157237'></script>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
@@ -762,6 +763,21 @@
 
   filterResources();
 </script>
-
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if (typeof show_12157237 === 'function') {
+    show_12157237({
+      type: 'inApp',
+      inAppSettings: {
+        frequency: 2,
+        capping: 0.1,
+        interval: 30,
+        timeout: 5,
+        everyPage: false
+      }
+    });
+  }
+});
+</script>
 </body>
 </html>
